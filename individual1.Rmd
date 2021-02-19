@@ -1,0 +1,124 @@
+---
+title: "Lab2"
+author: "Tyren Teav"
+date: "2/15/2021"
+output: html_document
+---
+
+```{r}
+
+#Problem 1
+
+choco <- read.csv("https://raw.githubusercontent.com/xdaiISU/ds202materials/master/hwlabs/data/choco.csv") 
+str(choco) 
+
+class(choco)
+
+
+rate <- choco$Rating
+hist(rate)
+# A few lower scored outliers of 1-2 and no ratings greater than 5
+
+boxplot(rate)
+# Same result as the histogram shown from boxplot, looks like 4 outliers
+
+
+#Problem 2
+
+unique(choco$Location)
+numRate <- table(choco$Location)
+numRate2 <- sort(numRate, decreasing = TRUE)
+numRate2
+# Most ratings are from the USA by over 5 times the second most. The second largest bunch is from France, Canada and U.K.
+
+barplot(numRate2)
+
+
+#Problem 3
+perc <- choco$Cocoa_Percent
+plot(perc,rate)
+#Not that good, data all over the place
+
+cor(perc,rate)
+#Low correlation value
+
+summary(perc)
+summary(rate)
+
+best <- rate[rate == 4]
+length(best)
+choco1 <- order(choco$Rating, decreasing = TRUE)
+fours <- choco1[1:102]
+bestcho <- choco[fours,]
+
+bestperc <- bestcho$Cocoa_Percent
+hist(bestperc)
+summary(bestperc)
+
+#The best chocolate has around 70 Cocoa Percent
+
+#Problem 4
+unique(choco$Bean_Origin)
+origin <- choco$Bean_Origin
+oritab <- table(choco$Bean_Origin)
+most <- sort(oritab, decreasing = TRUE)
+most
+
+Vene <- choco[origin == 'Venezuela', ]
+unique(Vene$Characteristics1)
+unique(Vene$Characteristics2)
+
+
+Peru <- choco[origin == 'Peru', ]
+unique(Peru$Characteristics1)
+unique(Peru$Characteristics2)
+
+
+Vietnam <- choco[origin == 'Vietnam', ]
+unique(Vietnam$Characteristics1)
+  
+# I am using characteristics 1-4 to represent the flavors of the chooclate
+# There is a large variety of flavors from the two countries that produce chocolate, so it is safe to assume that a specific flavor does not come from a specific place
+# I also tested a random country in the middle and there was a large variety of flavors from there too
+
+bestori <- table(bestcho$Bean_Origin)
+bestori1 <- sort(bestori, decreasing = TRUE)
+
+plot(bestori1, xlab = 'countries', ylab = 'number of 4 rates')
+
+# It does not look like there is a best origin as the highest ranking of chocolates come from multiple countries
+# The highest amounts were Venezuela and Peru, but they produced the most chocolate as well
+# Comparing it to the highest amount of origins, it loosely follows the countries that produce to most chocolate
+# Some countries that produce a lot did not produce any 4 rate chocolate (Dominican Republic), so origin does has some effect
+
+
+# Problem 5
+# Our first analysis will be comparing years chocolate were produced and their ratings, we will compare the beginning and end of each decade. Years 2006, 2010, 2014, 2018. 
+#We want to see if the year has any affect on the ratings. The other analysis will be the year vs. the cocoa percentage to see if there were changes to percent use over the years.
+
+year <- choco$Date
+first <- choco[year == 2006,] 
+
+summary(first$Rating)
+
+second <- choco[year == 2010,] 
+
+summary(second$Rating)
+
+third <- choco[year == 2014,] 
+
+summary(third$Rating)
+
+fourth <- choco[year == 2018,] 
+
+summary(fourth$Rating)
+
+#Looks like the lower rated chocolate got better over the years, possibly higher standards, newer equipment to improve chocolate, newer techniques to create chocolate.
+
+hist(first$Rating)
+hist(second$Rating)
+hist(third$Rating)
+hist(fourth$Rating)
+
+# Much more chocolate was produced over the years and as mentioned earlier the lower ratings increased, having no ratings of less than 2 for years 2014 and 2018
+```
