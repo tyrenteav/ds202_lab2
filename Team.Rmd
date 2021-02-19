@@ -1,0 +1,117 @@
+---
+title: "Team"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#loading in the dataset
+
+```{r}
+choco <- read.csv("https://raw.githubusercontent.com/xdaiISU/ds202materials/master/hwlabs/data/choco.csv") 
+str(choco)
+```
+
+#Problem 1
+
+```{r}
+class(choco)
+rate <- choco$Rating
+hist(rate)
+```
+# From the above, we can see that there are some outliers between 1-2 and there are no ratings which are above 5 either
+
+```{r}
+boxplot(rate)
+```
+# From the boxplot, we are able to draw the same conclusions as the histrogram. We can see that there are 4 outlier points and there are no ratings above 5 in the scale
+
+# Problem 2
+```{r}
+unique(choco$Location)
+numRate <- table(choco$Location)
+numRate2 <- sort(numRate, decreasing = TRUE)
+numRate2
+```
+# Most ratings are from the USA by over 5 times the second most. The second largest bunch is from France, Canada and U.K.
+```{r}
+barplot(numRate2)
+```
+# As we can see from the above graph, most of the ratings are from USA. There is a large difference between the first and second country with regards to the ratings. The countries which follow USA with ratings are France, Canada and UK
+
+
+#Problem 3
+```{r}
+perc <- choco$Cocoa_Percent
+plot(perc,rate)
+```
+#Not that good, data all over the place
+```{r}
+cor(perc,rate)
+```
+#Low correlation value
+```{r}
+summary(perc)
+summary(rate)
+best <- rate[rate == 4]
+length(best)
+choco1 <- order(choco$Rating, decreasing = TRUE)
+fours <- choco1[1:102]
+bestcho <- choco[fours,]
+bestperc <- bestcho$Cocoa_Percent
+hist(bestperc)
+summary(bestperc)
+```
+#The best chocolate has around 70 Cocoa Percent
+
+#Problem 4
+```{r}
+unique(choco$Bean_Origin)
+origin <- choco$Bean_Origin
+oritab <- table(choco$Bean_Origin)
+most <- sort(oritab, decreasing = TRUE)
+most
+Vene <- choco[origin == 'Venezuela', ]
+unique(Vene$Characteristics1)
+unique(Vene$Characteristics2)
+Peru <- choco[origin == 'Peru', ]
+unique(Peru$Characteristics1)
+unique(Peru$Characteristics2)
+Vietnam <- choco[origin == 'Vietnam', ]
+unique(Vietnam$Characteristics1)
+```
+  
+# I am using characteristics 1-4 to represent the flavors of the chooclate
+# There is a large variety of flavors from the two countries that produce chocolate, so it is safe to assume that a specific flavor does not come from a specific place
+# I also tested a random country in the middle and there was a large variety of flavors from there too
+
+```{r}
+bestori <- table(bestcho$Bean_Origin)
+bestori1 <- sort(bestori, decreasing = TRUE)
+plot(bestori1, xlab = 'countries', ylab = 'number of 4 rates')
+```
+
+# It does not look like there is a best origin as the highest ranking of chocolates come from multiple countries
+# The highest amounts were Venezuela and Peru, but they produced the most chocolate as well
+# Comparing it to the highest amount of origins, it loosely follows the countries that produce to most chocolate
+# Some countries that produce a lot did not produce any 4 rate chocolate (Dominican Republic), so origin does has some effect
+
+#Problem 5
+#(First Analysis - Rithwik Gokhale)
+# My analysis will be comparing the years of the chocolate manufacturing vs the % cacao in the chocolates being compared.
+
+```{r}
+years <- choco$Date
+unique(sort(years, decreasing = TRUE))
+```
+
+```{r}
+cor(choco$Date, choco$Cocoa_Percent)
+plot(choco$Date, choco$Cocoa_Percent)
+```
+#As we can see from the above graphs, there is very little positive correlation between the two variables of manufacturing year and the %cacao in the chocolates. Furthermore, from the graph, we can also see that the % of cacao was going up from 2006 to the yeat 2014 but then started to decrease afterwards. This suggests that having less % of cacao in the chocolate became a trend from the year 2014. This analysis can be used to determine how the % of cacao in the chocolate influences the ratings of the chocolate over the years. 
+
+#(Second Analysis - Tyren Teav)
+

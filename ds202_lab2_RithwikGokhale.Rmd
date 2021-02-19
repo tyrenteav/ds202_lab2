@@ -1,0 +1,58 @@
+---
+title: "ds202_lab2_RithwikGokhale"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#loading in the dataset
+
+```{r}
+choco <- read.csv("https://raw.githubusercontent.com/xdaiISU/ds202materials/master/hwlabs/data/choco.csv") 
+str(choco)
+```
+
+#Problem 1
+
+```{r}
+ratings <- choco$Rating
+hist(ratings)
+```
+# From the above, we can see that there are some outliers between 1-2 and there are no ratings which are above 5 either
+
+```{r}
+boxplot(ratings)
+```
+# From the boxplot, we are able to draw the same conclusions as the histrogram. We can see that there are 4 outlier points and there are no ratings above 5 in the scale
+
+# Problem 2
+```{r}
+loc <- table(choco$Location)
+loc2 <- sort(loc, decreasing = TRUE)
+barplot(loc2)
+```
+# As we can see from the above graph, most of the ratings are from USA. There is a large difference between the first and second country with regards to the ratings. The countries which follow USA with ratings are France, Canada and UK
+
+# Problem 3
+```{r}
+percent <- choco$Cocoa_Percent
+plot(ratings, percent)
+cor(ratings, percent)
+```
+# From the above, we can see that there is little to no correlation between the different variables which are being analyzed here. From the above graph, we can also confirm that the best chocolate ratings have around 70% cacao
+
+#Problem 5
+# My analysis will be comparing the years of the chocolate manufacturing vs the % cacao in the chocolates being compared.
+
+```{r}
+years <- choco$Date
+unique(sort(years, decreasing = TRUE))
+```
+
+```{r}
+cor(choco$Date, choco$Cocoa_Percent)
+plot(choco$Date, choco$Cocoa_Percent)
+```
+#As we can see from the above graphs, there is very little positive correlation between the two variables of manufacturing year and the %cacao in the chocolates. Furthermore, from the graph, we can also see that the % of cacao was going up from 2006 to the yeat 2014 but then started to decrease afterwards. This suggests that having less % of cacao in the chocolate became a trend from the year 2014. This analysis can be used to determine how the % of cacao in the chocolate influences the ratings of the chocolate over the years. 
